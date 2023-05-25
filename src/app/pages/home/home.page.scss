@@ -1,10 +1,107 @@
-ion-menu{
-    ion-content{
+* {
+    box-sizing: border-box;
+}
+
+ion-menu {
+    ion-content {
         --background: none;
     }
 }
 
-ion-toolbar{
+ion-toolbar {
     --background: none;
     color: white;
+}
+
+.currentDate {
+    display: block;
+    margin: auto;
+    position: relative;
+    top: 54px;
+    height: 15px;
+    width: 220px;
+    opacity: 0.6;
+    color: #FFFFFF;
+    font-family: 'Roboto';
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    line-height: 15px;
+    text-align: center;
+}
+
+.currentCity {
+    display: block;
+    margin: auto;
+    position: relative;
+    top: 64px;
+    height: 21px;
+    width: 138px;
+    color: #FFFFFF;
+    font-family: 'Roboto';
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 21px;
+    text-align: center;
+}
+
+.favorite {
+    height: 15px;
+    color: #FFFFFF;
+    font-family: Roboto;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 15px;
+    text-align: center;
+    display: block;
+    margin: auto;
+    position: relative;
+    top: 88px;
+}
+
+.weatherIcon {
+    text-align: center;
+    display: block;
+    margin: auto;
+    position: relative;
+    top: 160px;
+}
+
+.temperature {
+    height: 61px;
+    width: 60px;
+    color: #FFFFFF;
+    font-family: Roboto;
+    font-size: 52px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 61px;
+    text-align: center;
+    display: block;
+    margin: auto;
+    position: relative;
+    top: 150px;
+}
+
+.switch {
+    position: relative;
+    top: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+ion-segment {
+    width: 100px;
+    height: 50px;
+
+    ion-segment-button {
+        --color-checked: #fff;      
+        ion-label {
+            color: #E32843;
+            font-family: Roboto;
+            font-size: 16px;
+        }
+    }
 }

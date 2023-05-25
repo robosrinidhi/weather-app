@@ -20,7 +20,59 @@
         <ion-title>
           <img src="../../../assets/logo_splash.png" height="24" width="113"/>
         </ion-title>
+        <ion-buttons slot="end">
+          <ion-button>
+            <ion-icon name="search-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
       </ion-toolbar>
-      {{weatherData}}
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <div class="currentDate">
+            {{currentDate | date : 'EEE, dd MMM YYYY  hh:mm aa'}}
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <div class="currentCity">
+            {{currentCity}}
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <div class="favorite">
+            <ion-icon name="heart-outline"></ion-icon>
+            Add to favorite
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <div class="weatherIcon">
+            <img [src]="weatherIcon" height="67px" width="64px"/>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="temperature" size="4" offset="2">
+            {{convertedTemperature}}
+        </ion-col>
+        <ion-col>
+          <div class="switch">
+            <ion-segment [(ngModel)]="temperatureUnit" (ionChange)="onTemperatureUnitChange()">
+              <ion-segment-button value="celsius">
+                <ion-label>&deg; C</ion-label>
+              </ion-segment-button>
+              <ion-segment-button value="fahrenheit">
+                <ion-label>&deg; F</ion-label>
+              </ion-segment-button>
+            </ion-segment>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-content>
 </div>
