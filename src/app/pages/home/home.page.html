@@ -15,19 +15,26 @@
 </ion-menu>
 <div class="ion-page" id="main-content">
   <ion-header>
-    <ion-toolbar *ngIf="showSearchBar" class="ion-no-padding ion-no-margin">
+    <ion-toolbar *ngIf="showSearchBar" class="ion-no-padding ion-no-margin ion-margin-top">
       <ion-searchbar show-cancel-button="always" 
       cancel-button-icon="arrow-back"
       (ionCancel)="toggleSearchBar()"
       placeholder="Search for city"
       [(ngModel)]="searchTerm" 
-      (ionChange)="searchItems()">
+      (ionInput)="handleInput($event)"
+      [debounce]="1000"
+      >
       </ion-searchbar>
     </ion-toolbar>
   </ion-header>
-  <ion-content class="ion-padding">
+  <ion-content class="ion-no-padding ion-no-margin">
+    <ion-list class="ion-no-margin ion-no-padding" *ngIf="showSearchBar">
+      <ion-item *ngFor="let result of searchResults">
+        <ion-label (click)="weatherLocation($event)">{{ result }}</ion-label>
+      </ion-item>
+    </ion-list>
     <ion-header class="ion-no-border">
-      <ion-toolbar *ngIf="!showSearchBar">
+      <ion-toolbar *ngIf="!showSearchBar" class="ion-padding-top">
         <ion-buttons slot="start">
           <ion-menu-button color="light"></ion-menu-button>
         </ion-buttons>
@@ -41,7 +48,7 @@
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-    <ion-grid>
+    <ion-grid *ngIf="!showSearchBar">
       <ion-row>
         <ion-col>
           <div class="currentDate">
@@ -93,7 +100,17 @@
         </ion-col>
       </ion-row>
     </ion-grid>
-    <ion-footer class="ion-no-border">
+    <div class="noResultsContainer" *ngIf="searchResults.length == 0 && showSearchBar">
+      <div class="noResults">
+        <img src="../../../assets/icon_nothing.png">
+       <div class="ion-text-center">
+        <ion-text color="light">
+          No result found
+        </ion-text>
+       </div>
+      </div>
+    </div>
+    <ion-footer class="ion-no-border" *ngIf="!showSearchBar">
       <ion-grid>
         <ion-row class="ion-margin-top">
           <ion-col size="4" class="ion-no-padding ion-margin-top">

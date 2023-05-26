@@ -12,9 +12,33 @@ ion-toolbar {
     --background: none;
     color: white;
 }
-ion-searchbar.custom{
+
+.noResultsContainer {
+    min-height: 90vh;
+    min-width: 100vw;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .noResults{
+        img {
+            display: block;
+           margin: auto;
+        }
     
+        ion-text {
+            height: 21px;
+            width: 166px;
+            color: #FFFFFF;
+            font-family: Roboto;
+            font-size: 18px;
+            letter-spacing: 0;
+            line-height: 21px;
+        }
+    }
 }
+
 .currentDate {
     display: block;
     margin: auto;
@@ -128,25 +152,28 @@ ion-segment {
     top: 150px;
 }
 
-ion-footer{
+ion-footer {
     position: relative;
     top: 300px;
+
     // * {
     //     border: 1px solid black;
     // }
-    .minmaxtemp{
+    .minmaxtemp {
         display: inline-block;
-         color: #fff;
-         font-family: Roboto;
+        color: #fff;
+        font-family: Roboto;
     }
-    .precipitation{
+
+    .precipitation {
         display: inline-block;
-         color: #fff;
-         font-family: Roboto;
+        color: #fff;
+        font-family: Roboto;
     }
-    .humidity{
+
+    .humidity {
         display: inline-block;
-         color: #fff;
-         font-family: Roboto;
+        color: #fff;
+        font-family: Roboto;
     }
 }
