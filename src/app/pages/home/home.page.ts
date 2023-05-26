@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { WeatherService } from 'src/app/services/weather.service';
 
 @Component({
@@ -7,6 +7,8 @@ import { WeatherService } from 'src/app/services/weather.service';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
+  showSearchBar: boolean = false;
+  searchTerm: string = '';
   weatherData: any;
   currentCity: string = '';
   currentDate: Date = new Date();
@@ -15,9 +17,19 @@ export class HomePage implements OnInit {
   convertedTemperature: number = 0;
   temperature: number = 0;
 
+
   constructor(private weatherService: WeatherService) {
   }
 
+  toggleSearchBar() {
+    this.showSearchBar = !this.showSearchBar;
+    if (!this.showSearchBar) {
+      // Clear the search term or perform any other cleanup
+      this.searchTerm = '';
+    }
+  }
+  searchItems(){}
+  
   getWeather() {
     this.weatherService.getCurrentLocation()
       .then((location: any) => {
@@ -54,6 +66,16 @@ export class HomePage implements OnInit {
     } else {
       this.convertedTemperature = Math.round((this.temperature - 273.15) * 9 / 5 + 32);
     }
+  }
+
+  convertAnyTemperature(temprature: number) {
+    let newTemperature;
+    if (this.temperatureUnit === 'celsius') {
+      newTemperature = Math.round(temprature - 273.15);
+    } else {
+      newTemperature= Math.round((temprature - 273.15) * 9 / 5 + 32);
+    }
+    return newTemperature;
   }
 
 }
