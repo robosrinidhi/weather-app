@@ -51,7 +51,8 @@ export class WeatherService {
     return this.http.get(url);
   }
   getWeather(city: string) {
-    const url = `${this.baseurl}?q=${city}&APPID=${environment.apiKey}`;
+    console.log(city);
+    const url = `${this.baseurl}?q=${city}&appid=${environment.apiKey}`;
     return <Observable<any>> this.http.get(url)
   }
 }

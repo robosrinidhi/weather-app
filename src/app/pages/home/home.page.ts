@@ -1,5 +1,6 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { WeatherService } from 'src/app/services/weather.service';
+import cities from 'src/app/data/cityname';
 
 @Component({
   selector: 'app-home',
@@ -9,6 +10,7 @@ import { WeatherService } from 'src/app/services/weather.service';
 export class HomePage implements OnInit {
   showSearchBar: boolean = false;
   searchTerm: string = '';
+  searchResults: any;
   weatherData: any;
   currentCity: string = '';
   currentDate: Date = new Date();
@@ -18,18 +20,36 @@ export class HomePage implements OnInit {
   temperature: number = 0;
 
 
-  constructor(private weatherService: WeatherService) {
-  }
+  constructor(private weatherService: WeatherService) { }
 
   toggleSearchBar() {
     this.showSearchBar = !this.showSearchBar;
     if (!this.showSearchBar) {
-      // Clear the search term or perform any other cleanup
       this.searchTerm = '';
     }
   }
-  searchItems(){}
-  
+
+  handleInput(event: any) {
+    this.searchResults = Object.values(cities).filter((v) => isNaN(Number(v)))
+    const query = event.target.value.toLowerCase();
+    this.searchResults = this.searchResults.filter((d: any) => {
+      return d.toLowerCase().indexOf(query) !== -1
+    });
+  }
+
+  weatherLocation(event: any) {
+    console.log(typeof event.target.innerHTML);
+    this.weatherService.getWeather(event.target.innerHTML).subscribe((data: any) => {
+      this.weatherData = data;
+      this.weatherIcon = `https://openweathermap.org/img/wn/${this.weatherData?.weather[0].icon}.png`;
+      this.temperature = data.main.temp;
+      this.convertTemperature();
+      this.toggleSearchBar();
+      this.currentCity = event.target.innerHTML;
+      console.log(this.weatherData);
+    });
+  }
+
   getWeather() {
     this.weatherService.getCurrentLocation()
       .then((location: any) => {
@@ -37,7 +57,6 @@ export class HomePage implements OnInit {
         this.weatherService.getCurrentWeatherByCoordinates(location.latitude, location.longitude)
           .subscribe((data: any) => {
             this.weatherData = data;
-            console.log(this.weatherData);
             this.weatherIcon = `https://openweathermap.org/img/wn/${this.weatherData?.weather[0].icon}.png`;
             this.temperature = data.main.temp;
             this.convertTemperature();
@@ -54,6 +73,7 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.getWeather();
+    this.searchResults = Object.values(cities).filter((v) => isNaN(Number(v)));
   }
 
   onTemperatureUnitChange() {
@@ -73,7 +93,7 @@ export class HomePage implements OnInit {
     if (this.temperatureUnit === 'celsius') {
       newTemperature = Math.round(temprature - 273.15);
     } else {
-      newTemperature= Math.round((temprature - 273.15) * 9 / 5 + 32);
+      newTemperature = Math.round((temprature - 273.15) * 9 / 5 + 32);
     }
     return newTemperature;
   }
