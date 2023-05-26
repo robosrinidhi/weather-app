@@ -1,36 +1,51 @@
 <ion-menu contentId="main-content">
   <ion-toolbar></ion-toolbar>
-    <ion-item lines="none" class="ion-margin-left">
+  <ion-list mode="md">
+    <ion-item lines="none" class="ion-margin-left" [routerLink]="['/home']">
       Home
     </ion-item>
-    <ion-item lines="none">
+    <ion-item lines="none" [routerLink]="['/favorite']">
       Favorite
     </ion-item>
-    <ion-item lines="none">
+    <ion-item lines="none" [routerLink]="['/recent-search']">
       Recent Search
     </ion-item>
+  </ion-list>
   <ion-content class="ion-padding"></ion-content>
 </ion-menu>
 <div class="ion-page" id="main-content">
-  <ion-content class="ion-padding"> 
-      <ion-toolbar>
+  <ion-header>
+    <ion-toolbar *ngIf="showSearchBar" class="ion-no-padding ion-no-margin">
+      <ion-searchbar show-cancel-button="always" 
+      cancel-button-icon="arrow-back"
+      (ionCancel)="toggleSearchBar()"
+      placeholder="Search for city"
+      [(ngModel)]="searchTerm" 
+      (ionChange)="searchItems()">
+      </ion-searchbar>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <ion-header class="ion-no-border">
+      <ion-toolbar *ngIf="!showSearchBar">
         <ion-buttons slot="start">
-          <ion-menu-button></ion-menu-button>
+          <ion-menu-button color="light"></ion-menu-button>
         </ion-buttons>
         <ion-title>
-          <img src="../../../assets/logo_splash.png" height="24" width="113"/>
+          <img src="../../../assets/logo_splash.png" height="24" width="113" />
         </ion-title>
         <ion-buttons slot="end">
-          <ion-button>
-            <ion-icon name="search-outline"></ion-icon>
+          <ion-button (click)="toggleSearchBar()">
+            <ion-icon name='search' color="light"></ion-icon>
           </ion-button>
         </ion-buttons>
       </ion-toolbar>
+    </ion-header>
     <ion-grid>
       <ion-row>
         <ion-col>
           <div class="currentDate">
-            {{currentDate | date : 'EEE, dd MMM YYYY  hh:mm aa'}}
+            {{currentDate | date : 'EEE, dd MMM YYYY hh:mm aa'}}
           </div>
         </ion-col>
       </ion-row>
@@ -52,27 +67,59 @@
       <ion-row>
         <ion-col>
           <div class="weatherIcon">
-            <img [src]="weatherIcon" height="67px" width="64px"/>
+            <img [src]="weatherIcon" height="67px" width="64px" />
           </div>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col class="temperature" size="4" offset="2">
-            {{convertedTemperature}}
+          {{convertedTemperature}}
         </ion-col>
-        <ion-col>
-          <div class="switch">
-            <ion-segment [(ngModel)]="temperatureUnit" (ionChange)="onTemperatureUnitChange()">
-              <ion-segment-button value="celsius">
-                <ion-label>&deg; C</ion-label>
-              </ion-segment-button>
-              <ion-segment-button value="fahrenheit">
-                <ion-label>&deg; F</ion-label>
-              </ion-segment-button>
-            </ion-segment>
-          </div>
+        <ion-col class="switch">
+
+          <ion-segment [(ngModel)]="temperatureUnit" (ionChange)="onTemperatureUnitChange()" mode="ios">
+            <ion-segment-button value="celsius">
+              <ion-label>&deg; C</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="fahrenheit">
+              <ion-label>&deg; F</ion-label>
+            </ion-segment-button>
+          </ion-segment>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col class="description">
+          {{weatherData?.weather[0].description}}
         </ion-col>
       </ion-row>
     </ion-grid>
+    <ion-footer class="ion-no-border">
+      <ion-grid>
+        <ion-row class="ion-margin-top">
+          <ion-col size="4" class="ion-no-padding ion-margin-top">
+            <ion-icon name="thermometer-outline" color="light" size="large"></ion-icon>
+            <div class="minmaxtemp" color="light">
+              Min-Max <br />
+              {{ convertAnyTemperature(weatherData?.main.temp_min) }}&deg; - {{
+              convertAnyTemperature(weatherData?.main.temp_max) }}&deg;
+            </div>
+          </ion-col>
+          <ion-col size="4" class="ion-no-padding ion-margin-top">
+            <ion-icon name="rainy-outline" color="light" size="large"></ion-icon>
+            <div class="precipitation" color="light">
+              Precipitation <br />
+              0 %
+            </div>
+          </ion-col>
+          <ion-col size="4" class="ion-no-padding ion-margin-top">
+            <ion-icon name="water-outline" color="light" size="large"></ion-icon>
+            <div class="humidity" color="light">
+              Humidity <br />
+              {{ weatherData?.main.humidity }}%
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-footer>
   </ion-content>
 </div>

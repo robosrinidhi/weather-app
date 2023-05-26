@@ -25,7 +25,6 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-
 ion-content {
-    --background : linear-gradient(to top right, #647dee 0%, #8851cce0 74%);
+    --background : url('./assets/background_android.png') 0 0/100% 100% no-repeat; 
 }

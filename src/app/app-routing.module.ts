@@ -16,6 +16,14 @@ const routes: Routes = [
     loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
   },
   {
+    path: 'favorite',
+    loadChildren: () => import('./pages/favorite/favorite.module').then( m => m.FavoritePageModule)
+  },
+  {
+    path: 'recent-search',
+    loadChildren: () => import('./pages/recent-search/recent-search.module').then( m => m.RecentSearchPageModule)
+  },
+  {
     path: '**',
     redirectTo:'error'
   },
