@@ -64,11 +64,12 @@
         </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col>
-          <div class="favorite">
-            <ion-icon name="heart-outline"></ion-icon>
-            Add to favorite
-          </div>
+        <ion-col class="favorite">
+          <ion-button fill="clear" (click)="addToFavorites()">
+            <ion-icon name="heart-outline" color="light" *ngIf="!isFavorite"></ion-icon>
+            <ion-icon name="heart" color="warning" *ngIf="isFavorite"></ion-icon>
+            <ion-text color="light">Add to favorite</ion-text>
+          </ion-button>
         </ion-col>
       </ion-row>
       <ion-row>

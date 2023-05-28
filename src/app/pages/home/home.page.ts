@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { WeatherService } from 'src/app/services/weather.service';
 import cities from 'src/app/data/cityname';
+import { FavoriteService } from 'src/app/services/favorite.service';
 
 @Component({
   selector: 'app-home',
@@ -18,9 +19,12 @@ export class HomePage implements OnInit {
   temperatureUnit: 'celsius' | 'fahrenheit' = 'celsius';
   convertedTemperature: number = 0;
   temperature: number = 0;
+  isFavorite: boolean = false;
 
-
-  constructor(private weatherService: WeatherService) { }
+  constructor(
+    private weatherService: WeatherService,
+    private favoriteService: FavoriteService
+    ) { }
 
   toggleSearchBar() {
     this.showSearchBar = !this.showSearchBar;
@@ -37,8 +41,11 @@ export class HomePage implements OnInit {
     });
   }
 
+  addToFavorites(){
+    this.isFavorite = true;
+    this.favoriteService.addFavoriteCity(this.weatherData);
+  }
   weatherLocation(event: any) {
-    console.log(typeof event.target.innerHTML);
     this.weatherService.getWeather(event.target.innerHTML).subscribe((data: any) => {
       this.weatherData = data;
       this.weatherIcon = `https://openweathermap.org/img/wn/${this.weatherData?.weather[0].icon}.png`;
@@ -46,7 +53,16 @@ export class HomePage implements OnInit {
       this.convertTemperature();
       this.toggleSearchBar();
       this.currentCity = event.target.innerHTML;
-      console.log(this.weatherData);
+
+      this.isFavorite = false;
+
+      this.favoriteService.getFavoriteCities().forEach((data)=>{
+        if(this.currentCity === data){
+          this.isFavorite = true;
+        }
+        this.isFavorite = false;
+      })
+      console.log(this.isFavorite);
     });
   }
 

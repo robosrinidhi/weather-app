@@ -1,13 +1,48 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button default-href="/"></ion-back-button>
+    </ion-buttons>
     <ion-title>favorite</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">favorite</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-grid >
+    <ion-row>
+      <ion-col>
+        <ion-text color="light" class="favoriteCount">
+          {{favoriteCity.length}} Cities added as favorites
+        </ion-text>
+      </ion-col>
+      <ion-col class="ion-no-padding ion-no-margin remove-all">
+        <ion-button fill="clear" class="ion-no-padding ion-no-margin" (click)="presentAlert()">
+          <ion-text color="light">Remove all</ion-text>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    <div class="noResultsContainer" *ngIf="favoriteCityWeatherArray.length == 0">
+      <div class="noResults">
+        <img src="../../../assets/icon_nothing.png">
+       <div class="ion-text-center">
+        <ion-text color="light">
+          No result found
+        </ion-text>
+       </div>
+      </div>
+    </div>
+    <ion-row class="content" *ngFor="let cityWeather of favoriteCityWeatherArray">
+      <ion-col size="10" class="ion-padding">
+        <div class="cityName">{{cityWeather.name | json}}</div>
+        <div class="weatherShort">
+          <img src="https://openweathermap.org/img/wn/{{cityWeather?.weather[0].icon}}.png" height="30px"
+            width="30px" />
+          <ion-text color="light" class="ion-margin ion-text-center">{{cityWeather?.weather[0].description}}</ion-text>
+        </div>
+      </ion-col>
+      <ion-col size="2" class="ion-text-center ion-padding">
+        <ion-icon color="warning" name="heart" size="large"></ion-icon>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
